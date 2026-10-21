@@ -24,7 +24,7 @@ You need **JDK 21 or later**. Maven is downloaded automatically by the included 
 macOS / Linux:
 
 ```bash
-./mvnw spring-boot:run
+sh ./mvnw spring-boot:run
 ```
 
 Windows PowerShell:
@@ -38,17 +38,17 @@ Open **http://localhost:8080**. The normal workspace starts empty and saves its 
 ### Try the sample catalogue
 
 ```bash
-./mvnw spring-boot:run -Dspring-boot.run.profiles=demo
+sh ./mvnw spring-boot:run -Dspring-boot.run.profiles=demo
 ```
 
-On Windows, use `mvnw.cmd` and quote `"-Dspring-boot.run.profiles=demo"` if your shell requires it. Demo mode contains six fictional products. Its database is held in memory and resets when the process stops; it does not change the normal workspace.
+On Windows, replace `sh ./mvnw` with `.\mvnw.cmd` and quote `"-Dspring-boot.run.profiles=demo"` if your shell requires it. Demo mode contains six fictional products. Its database is held in memory and resets when the process stops; it does not change the normal workspace.
 
 Try receiving 5 units of black gel pens, withdrawing 2, and filtering to low stock. To see the validation, try withdrawing more units than are available. Export the CSV to inspect the resulting balances.
 
 ### Test and build
 
 ```bash
-./mvnw verify
+sh ./mvnw verify
 java -jar target/stockroom-0.0.1-SNAPSHOT.jar
 ```
 
