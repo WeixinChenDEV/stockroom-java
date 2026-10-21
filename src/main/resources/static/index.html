@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A small Java inventory management project.">
+  <title>Stockroom · Inventory</title><link rel="stylesheet" href="/styles.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="Stockroom home"><span class="brand-icon">s.</span> stockroom</a>
+    <p class="workspace">PERSONAL WORKSPACE</p>
+    <a class="nav-link active" href="#inventory"><span aria-hidden="true">▦</span> Inventory <span class="nav-count" id="nav-count">0</span></a>
+    <a class="nav-link" href="#activity"><span aria-hidden="true">↔</span> Stock activity</a>
+    <div class="sidebar-note"><span class="status-dot"></span> Local workspace<p>Simple stock. Clear records.</p></div>
+    <div class="profile"><span class="avatar">S</span><div>My stockroom<small>Single-user project</small></div></div>
+  </aside>
+  <main>
+    <header class="topbar"><span>Workspace <span class="slash">/</span> <strong>Inventory</strong></span><span class="tech-label">JAVA + SPRING BOOT</span></header>
+    <div class="content">
+      <div class="page-heading" id="inventory"><div><p class="eyebrow">A LITTLE MORE ORDER</p><h1>Your inventory, at a glance.</h1><p class="subtitle">Keep track of what you have, and what needs a top-up.</p></div><button class="primary" id="add-product"><span aria-hidden="true">＋</span> Add product</button></div>
+      <div class="notice" id="notice" role="status" aria-live="polite" hidden></div>
+      <section class="metrics" aria-label="Inventory summary">
+        <article><span>Total products</span><strong id="total-products">—</strong><small>Items in your catalogue</small></article>
+        <article><span>Units on hand</span><strong id="total-units">—</strong><small>Across all products</small></article>
+        <article class="alert-metric"><span>Low stock <span class="mini-dot"></span></span><strong id="low-stock">—</strong><small>At or below reorder level</small></article>
+        <article><span>Stock value</span><strong id="stock-value">—</strong><small>Quantity × unit price · EUR</small></article>
+      </section>
+      <section class="panel" aria-labelledby="catalogue-heading">
+        <div class="panel-heading"><div><h2 id="catalogue-heading">Product catalogue <span id="catalogue-count" class="count-pill">0</span></h2><p>A home for every item on your shelf.</p></div><a class="export" href="/api/export" download>↓ <span>Export CSV</span></a></div>
+        <div class="toolbar"><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" aria-label="Search products" placeholder="Search by name or SKU..."></label><label><span class="sr-only">Category</span><select id="category"><option value="">All categories</option></select></label><label class="check-filter"><input id="low-only" type="checkbox"> Low stock only</label><span id="results-count" class="results-count"></span></div>
+        <div class="table-scroll"><table><thead><tr><th>Product</th><th>Category</th><th class="number">Unit price</th><th class="number">On hand</th><th>Status</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody id="products"><tr><td colspan="6" class="empty">Loading your inventory…</td></tr></tbody></table></div>
+        <div class="panel-foot"><span><span class="legend-dot"></span> Low stock includes items at their reorder level.</span><span>All prices in EUR</span></div>
+      </section>
+      <section class="panel activity" id="activity" aria-labelledby="activity-heading"><div class="panel-heading"><div><h2 id="activity-heading">Recent stock activity</h2><p>The latest 50 movements, with a reason for every change.</p></div><span class="ledger-label">MOVEMENT LOG</span></div><div class="table-scroll"><table><thead><tr><th>Product</th><th>Movement</th><th>Note</th><th class="number">Balance after</th><th class="number">Recorded</th></tr></thead><tbody id="movements"></tbody></table></div></section>
+      <footer>Stockroom <span>·</span> A small inventory management project <span class="footer-right">Built with Java & a little care.</span></footer>
+    </div>
+  </main>
+  <dialog id="product-dialog"><form id="product-form"><div class="dialog-heading"><div><p class="eyebrow">PRODUCT CATALOGUE</p><h2 id="product-title">Add a product</h2></div><button type="button" class="icon-button" data-close aria-label="Close product form">×</button></div><p class="dialog-intro">New products start with zero stock. Record an incoming movement to add units.</p><input type="hidden" name="id"><label>Product name<input name="name" required maxlength="80" placeholder="e.g. A5 dotted notebook"></label><div class="form-row"><label>SKU<input name="sku" required maxlength="32" pattern="[A-Za-z0-9-]{1,32}" placeholder="ST-003"><small>Letters, numbers and hyphens</small></label><label>Category<input name="category" required maxlength="40" placeholder="Stationery" list="categories"><datalist id="categories"></datalist></label></div><div class="form-row"><label>Unit price (€)<input name="unitPrice" type="number" min="0" max="9999999999.99" step="0.01" required value="0.00"></label><label>Reorder level<input name="reorderLevel" type="number" min="0" max="1000000" step="1" required value="5"></label></div><p class="form-error" role="alert" hidden></p><div class="dialog-actions"><button type="button" class="secondary" data-close>Cancel</button><button class="primary" type="submit">Save product</button></div></form></dialog>
+  <dialog id="movement-dialog"><form id="movement-form"><div class="dialog-heading"><div><p class="eyebrow">STOCK MOVEMENT</p><h2>Update stock</h2></div><button type="button" class="icon-button" data-close aria-label="Close stock form">×</button></div><p class="movement-product" id="movement-product"></p><input type="hidden" name="id"><label>Movement type<select name="direction"><option value="IN">Stock in · receive units</option><option value="OUT">Stock out · remove units</option></select></label><label>Quantity<input name="quantity" type="number" min="1" max="1000000" step="1" required value="1"></label><label>Reason / note<input name="note" required maxlength="160" placeholder="e.g. Supplier delivery or customer order"></label><p class="form-error" role="alert" hidden></p><div class="dialog-actions"><button type="button" class="secondary" data-close>Cancel</button><button class="primary" type="submit">Record movement</button></div></form></dialog>
+</body></html>
